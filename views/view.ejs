@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600&display=swap" rel="stylesheet">
+    <% if (posts.length === 0) { %>
+        <link rel="stylesheet" href="/css/editor.css">
+    <% } else { %>
+        <link rel="stylesheet" href="/css/styles.css">
+    <% } %>
+    <title>Editor</title>
+</head>
+<body>
+    
+    <% if (posts.length === 0) { %>
+        <h1 style="text-align: center;">There are no posts yet...<br /> It's time to write something📕🖊️</h1>
+        <a href="/new" class="button">Write a Blog</a>
+    <% } else { %>
+        <% posts.forEach(post => { %>
+            <div>
+                <!-- Post Details -->
+                <h2><%= post.title %></h2>
+                <p><%= post.content %></p>
+                <a href="/posts/edit/<%= post.id %>">Edit</a>
+                <form action="/posts/delete/<%= post.id %>" method="POST">
+                    <button type="submit">Delete</button>
+                </form>
+
+                <!-- Comments Section -->
+                <div class="comments-section">
+                    <h3>Comments:</h3>
+                    <% if (!post.comments || post.comments.length === 0) { %>
+                        <p>No comments yet.</p>
+                    <% } else { %>
+                        <% post.comments.forEach(comment => { %>
+                            <div class="comment">
+                                <p><%= comment.content %></p>
+                                <small>By User ID: <%= comment.userId %> on <%= comment.createdAt.toDateString() %></small>
+                            </div>
+                        <% }) %>
+                    <% } %>
+                </div>
+                
+
+                    
+                </div>
+                <hr />
+            </div>
+        <% }) %>
+        <form action="/home" method="GET">
+            <button type="submit">Back</button>
+        </form>
+    <% } %>
+</body>
+</html>

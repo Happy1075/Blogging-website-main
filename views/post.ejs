@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/home.css">
+  <title><%= post.title %></title>
+</head>
+<body>
+  <nav class="navbar">
+    <img src="images/logo.png" class="logo" alt="">
+    <ul class="links-container">
+        <li class="link-item"><a href="/home" class="link">home</a></li>
+        <li class="link-item"><a href="/editor" class="link">editor</a></li>
+    </ul>
+  </nav>
+
+  <header class="header">
+    <div class="content">
+      <h1 class="heading"><%= post.title %></h1>
+    </div>
+  </header>
+
+  <section class="blogs-section">
+    <div class="card">
+      <img src="<%= post.imageUrl %>" alt="Blog Image" class="blog-image">
+      <h2><%= post.title %></h2>
+      <p class="blog-overview"><%= post.content %></p>
+    </div>
+  </section>
+
+  <!-- Comments Section -->
+  <section class="comments-section">
+    <h3>Comments:</h3>
+
+    <% if (!post.comments || post.comments.length === 0) { %>
+      <p>No comments yet. Be the first to comment!</p>
+    <% } else { %>
+      <% post.comments.forEach(comment => { %>
+        <div class="comment">
+          <p><%= comment.content %></p>
+          <small>By User ID: <%= comment.userId %> on <%= comment.createdAt.toDateString() %></small>
+        </div>
+      <% }) %>
+    <% } %>
+
+    <!-- Add Comment Form -->
+    <form action="/comments/add" method="POST" class="comment-form">
+      <input type="hidden" name="postId" value="<%= post._id %>">
+      <label for="comment">Add a Comment:</label>
+      <textarea name="content" id="comment" rows="3" required></textarea>
+      <button type="submit">Submit</button>
+    </form>
+  </section>
+
+</body>
+</html>
